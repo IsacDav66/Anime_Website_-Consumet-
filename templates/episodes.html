@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Episodios</title>
+</head>
+
+<body>
+    <h1>Episodios</h1>
+    <ul>
+        {% for episode in episodes %}
+        <li>
+            <h3>Episodio {{ episode.number }}</h3>
+            <p>{{ episode.title }}</p>
+            <p>URL: <a href="{{ episode.url }}" target="_blank">{{ episode.url }}</a></p>
+        </li>
+        {% endfor %}
+    </ul>
+</body>
+
+</html>

@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Anime Details</title>
+</head>
+
+<body>
+    <h1>Anime Details</h1>
+    <div>
+        <h2>{{ anime.title }}</h2>
+        <p><strong>Description:</strong> {{ anime.description }}</p>
+        <p><strong>Genres:</strong> {% for genre in anime.genres %} {{ genre }} {% endfor %}</p>
+        <p><strong>Release Date:</strong> {{ anime.releaseDate }}</p>
+        <p><strong>Status:</strong> {{ anime.status }}</p>
+        <p><strong>Total Episodes:</strong> {{ anime.totalEpisodes }}</p>
+        <p><strong>Episodes:</strong></p>
+        <ul>
+            {% for episode in anime.episodes %}
+            <li>
+                <p><strong>Episode {{ episode.number }}:</strong></p>
+                <p>Title: {{ episode.title }}</p>
+                <p>Is Filler: {{ episode.isFiller }}</p>
+                <p>URL: <a href="{{ episode.url }}">{{ episode.url }}</a></p>
+                <p>ID: {{ episode.id }}</p>
+                <form action="/watch-episode" method="post">
+                    <input type="hidden" name="episode_id" value="{{ episode.id }}">
+                    <button type="submit">Watch Episode</button>
+                </form>
+            </li>
+            {% endfor %}
+        </ul>
+
+
+    </div>
+</body>
+
+</html>

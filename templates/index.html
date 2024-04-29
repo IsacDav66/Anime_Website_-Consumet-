@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Search Anime</title>
+</head>
+
+<body>
+    <h1>Search Anime</h1>
+    <form action="/search" method="POST">
+        <input type="text" name="query" placeholder="Enter anime title">
+        <button type="submit">Search</button>
+    </form>
+
+    <h2>Results:</h2>
+    <ul>
+        {% for provider, anime_info in results %}
+        <li>
+            <h2>{{ provider }}</h2> <br>
+            <strong>Title:</strong> {{ anime_info.title }}<br>
+            <!--<strong>Image:</strong> <img src="{{ anime_info.image }}" alt="No image available"><br>-->
+            <strong>Release Date:</strong> {{ anime_info.releaseDate }}<br>
+            <strong>Sub/Dub:</strong> {{ anime_info.subOrDub }}<br>
+            <strong>ID:</strong>     {{ anime_info.id }}<br>
+            <strong>Episodios:</strong> {{anime_info.episodes}} <br>
+            <strong>TotalEpisodes:</strong> {{anime_info.totalEpisodes}} <br> 
+            <form action="/anime-details" method="post">
+                <input type="hidden" name="provider" value="{{ provider| lower }}">
+                <input type="hidden" name="id" value="{{ anime_info.id }}">
+                <button type="submit">View Details</button>
+            </form>
+            <br>
+        </li>
+        {% endfor %}
+    </ul>
+</body>
+
+</html>

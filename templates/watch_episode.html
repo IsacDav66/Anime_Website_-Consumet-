@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://vjs.zencdn.net/8.10.0/video-js.css" rel="stylesheet" />
+
+    <title>Watch Episode</title>
+</head>
+
+<body>
+    <h1>Watch Episode</h1>
+    <p>Episode ID: {{ episode_id }}</p>
+
+    <!-- Mostrar la URL del origen (source URL) -->
+    <h2>Source URL:</h2>
+    <ul>
+    <h1>VIDEO</h1>
+    {% for source in episode_data.sources %}
+    <li>{{ source.url }}</li>
+    {% endfor %}
+    <video id="videoPlayer" class="video-js vjs-default-skin" controls preload="auto" width="640" height="360">
+        <source src="" type="application/x-mpegURL">
+        Tu navegador no soporta el formato de video.
+    </video>
+    </ul>
+
+    <!-- Mostrar las URLs de los subtítulos -->
+    <h2>Subtitles:</h2>
+    <ul>
+        {% for subtitle in episode_data.subtitles %}
+        <li>{{ subtitle.url }} - {{ subtitle.lang }}</li>
+        {% endfor %}
+    </ul>
+
+    <br>
+
+
+    <!-- Aquí puedes agregar cualquier otra información relacionada con el episodio -->
+    <script src="https://vjs.zencdn.net/8.10.0/video.min.js"></script>
+    <script>
+        // Función para inicializar el reproductor de video con el proxy y la URL dinámica proporcionada
+            function initializeVideoPlayerWithDynamicURL() {
+                const player = videojs('videoPlayer', {}, function () {
+                    console.log('Reproductor de video inicializado');
+                });
+
+                // Obtener la URL del video desde la variable pasada por Jinja2
+                const videoURL = "{{ episode_data.sources[0].url }}";
+                console.log('URL del video:', videoURL);
+
+                // Extraer la parte de la URL que viene después de 'hls-playback/'
+                const videoID = videoURL.split('hls-playback/')[1];
+                console.log('ID del video:', videoID);
+
+                // Concatenar la parte extraída con la parte inicial de la URL del video
+                const proxyUrl = 'https://proxy-cors-x8uo.onrender.com/' + videoID;
+                console.log('URL del proxy:', proxyUrl);
+
+                // Agregar la fuente del video al reproductor
+                player.src({ type: 'application/x-mpegURL', src: proxyUrl });
+            }
+
+            // Llamar a la función para inicializar el reproductor de video con la URL dinámica proporcionada
+            initializeVideoPlayerWithDynamicURL();
+    </script>
+</body>
+
+</html>
